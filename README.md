@@ -5,6 +5,9 @@ Este proyecto permite realizar la anulación de facturas en lote usando el API d
 Para hacer correr este proyecto ejecutar en una maquina con python 3 instalado lo siguiente:
 
 ```bash
+# Creamos un virtual env (solo la primera vez)
+python3 -m venv venv
+
 # Activamos entorno virtual
 source ./venv/bin/activate
 

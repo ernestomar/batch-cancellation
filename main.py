@@ -4,14 +4,22 @@ import json
 
 def get_token(auth_url, client_id, client_secret):
     """Obtiene el token de acceso usando el flujo Client Credentials."""
+    print(f"Obteniendo token de {auth_url}")
     try:
         response = requests.post(auth_url, data={
+            'response_type': 'code',
             'grant_type': 'client_credentials',
             'client_id': client_id,
             'client_secret': client_secret
         })
         response.raise_for_status()
-        return response.json().get('access_token')
+        access_token = response.json().get('access_token')
+        if access_token:
+            print(f"Access Token: {access_token}")
+            return access_token
+        else:
+            print("Error: No se encontró el token en la respuesta.")
+            exit(1)
     except requests.exceptions.RequestException as e:
         print(f"Error al obtener el token: {e}")
         exit(1)
@@ -22,12 +30,13 @@ def annul_bill(api_url, token, bill_id):
         "Authorization": f"Bearer {token}",
         "Content-Type": "application/json"
     }
+    print(headers)
     payload = {
         "bill_id": bill_id,
         "reason_code": "1"
     }
     try:
-        response = requests.post(api_url, headers=headers, json=payload)
+        response = requests.put(api_url, headers=headers, json=payload)
         return {
             "status_code": response.status_code,
             "request": json.dumps(payload),
@@ -47,7 +56,7 @@ def main():
     parser.add_argument("bill_file", help="Archivo de texto con BILL_IDs (uno por línea).")
     args = parser.parse_args()
 
-    auth_url = "https://ebill-auth.cirrus-it.net"
+    auth_url = "https://ebill-auth.cirrus-it.net/oauth2/token"
     api_url = "https://ebill-management-api.cirrus-it.net/api/v1/bill/annulment"
 
     # Obtener token

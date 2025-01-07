@@ -18,7 +18,7 @@ pip install -r requirements.txt
 2. Crea un archivo con los BILL_ID uno por línea que se deben eliminar, por ejemplo: `bill_ids.txt`
 3. Ejecuta el programa desde la terminal:
    ```bash
-   python annul_bills.py CLIENT_ID CLIENT_SECRET bill_ids.txt
+   python main.py CLIENT_ID CLIENT_SECRET bill_ids.txt
    ```
    - Reemplaza `CLIENT_ID` y `CLIENT_SECRET` con tus credenciales de cliente.
    - Reemplaza `bill_ids.txt` con el nombre del archivo que contiene los `BILL_ID` (uno por línea).
